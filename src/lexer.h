@@ -5,14 +5,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include <string.h>
-
-enum token {
-  // Symbols
-  PIPE = '|',
-  BG   = '&',
-  RDIR = '>',
-  LDIR = '<'
-};
+#include "token.h"
 
 /**
  * A linked list of tokens.
