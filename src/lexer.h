@@ -1,6 +1,11 @@
 #ifndef LEXER
 #define LEXER
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include <string.h>
+
 enum token {
   // Symbols
   PIPE = '|',
