@@ -12,7 +12,10 @@ enum token {
   LDIR,
 
   // Values
-  NAME
+  NAME,
+
+  // Status
+  ILLEGAL
 };
 
 /**

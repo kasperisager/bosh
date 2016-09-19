@@ -50,8 +50,15 @@ struct tokens *lex(const char *input) {
       case '&': p++; t->token = BG;   break;
       case '>': p++; t->token = RDIR; break;
       case '<': p++; t->token = LDIR; break;
-      default:       t->token = NAME;
-                     t->value = name(&p);
+
+      default:
+        if (isname(*p)) {
+          t->token = NAME;
+          t->value = name(&p);
+        } else {
+          t->token = ILLEGAL;
+          return s;
+        }
     }
 
     c = t;
