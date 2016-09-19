@@ -12,9 +12,14 @@
  */
 struct tokens {
   /**
-   * The value of the current token.
+   * The type of the token.
    */
-  const char *token;
+  enum token token;
+
+  /**
+   * The value of the token.
+   */
+  const char* value;
 
   /**
    * A pointer to the next token.

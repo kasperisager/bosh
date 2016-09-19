@@ -2,21 +2,25 @@
 #define TOKEN
 
 #include <stdbool.h>
+#include <ctype.h>
 
 enum token {
-  // Symbols
-  PIPE = '|',
-  BG   = '&',
-  RDIR = '>',
-  LDIR = '<'
+  // Operators
+  PIPE,
+  BG,
+  RDIR,
+  LDIR,
+
+  // Values
+  NAME
 };
 
 /**
- * Check if a character is a reserved symbol.
+ * Check if a character is valid in a name.
  *
  * @param c The character to check.
- * @return true if the character is a reserved symbol.
+ * @return true if the character is valid in a name.
  */
-bool issymbol(char c);
+bool isname(char c);
 
 #endif

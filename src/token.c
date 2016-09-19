@@ -1,14 +1,11 @@
 #include "token.h"
 
 /**
- * Check if a character is a reserved symbol.
+ * Check if a character is valid in a name.
  *
  * @param c The character to check.
- * @return true if the character is a reserved symbol.
+ * @return true if the character is valid in a name.
  */
-bool issymbol(char c) {
-  return c == PIPE
-      || c == BG
-      || c == RDIR
-      || c == LDIR;
+bool isname(char c) {
+  return !isspace(c) && (isalnum(c) || c == '/' || c == '.');
 }
