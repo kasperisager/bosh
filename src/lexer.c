@@ -56,8 +56,7 @@ struct tokens *lex(const char *input) {
           t->token = NAME;
           t->value = name(&p);
         } else {
-          t->token = ILLEGAL;
-          return s;
+          return NULL;
         }
     }
 
