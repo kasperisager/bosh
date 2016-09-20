@@ -8,26 +8,11 @@
 #include "token.h"
 
 /**
- * A linked list of tokens.
- */
-struct tokens {
-  /**
-   * The current token.
-   */
-  struct token token;
-
-  /**
-   * A pointer to the next token.
-   */
-  struct tokens *next;
-};
-
-/**
  * Lex an input string to a list of tokens.
  *
  * @param input The input string to lex.
  * @return A pointer to the list of tokens.
  */
-struct tokens *lex(const char *input);
+struct token_list *lex(const char *input);
 
 #endif

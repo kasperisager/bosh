@@ -27,9 +27,9 @@ const char *name(const char **p) {
  * @param input The input string to lex.
  * @return A pointer to the list of tokens.
  */
-struct tokens *lex(const char *input) {
-  struct tokens *s = NULL;
-  struct tokens *c = NULL;
+struct token_list *lex(const char *input) {
+  struct token_list *s = NULL;
+  struct token_list *c = NULL;
 
   const char *p = input;
 
@@ -38,7 +38,7 @@ struct tokens *lex(const char *input) {
       p++; continue;
     }
 
-    struct tokens *t = malloc(sizeof(struct tokens));
+    struct token_list *t = malloc(sizeof(struct token_list));
     t->next = NULL;
 
     if (c) c->next = t;
