@@ -26,7 +26,7 @@ struct token {
    * The value of the token.
    */
   union {
-    const char *str;
+    char *str;
   } value;
 };
 

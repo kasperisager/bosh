@@ -13,6 +13,6 @@
  * @param input The input string to lex.
  * @return A pointer to the list of tokens.
  */
-struct token_list *lex(const char *input);
+struct token_list *lex(char *input);
 
 #endif

@@ -6,8 +6,8 @@
  * @param p The input pointer.
  * @return The resulting name.
  */
-const char *name(const char **p) {
-  const char *q = *p;
+char *name(char **p) {
+  char *q = *p;
 
   while (*q && isname(*q)) {
     q++;
@@ -27,11 +27,11 @@ const char *name(const char **p) {
  * @param input The input string to lex.
  * @return A pointer to the list of tokens.
  */
-struct token_list *lex(const char *input) {
+struct token_list *lex(char *input) {
   struct token_list *s = NULL;
   struct token_list *c = NULL;
 
-  const char *p = input;
+  char *p = input;
 
   while (*p) {
     if (isspace(*p)) {
