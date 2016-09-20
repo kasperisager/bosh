@@ -39,22 +39,21 @@ struct tokens *lex(const char *input) {
     }
 
     struct tokens *t = malloc(sizeof(struct tokens));
-    t->next  = NULL;
-    t->value = NULL;
+    t->next = NULL;
 
     if (c) c->next = t;
     else s = t;
 
     switch (*p) {
-      case '|': p++; t->token = PIPE; break;
-      case '&': p++; t->token = BG;   break;
-      case '>': p++; t->token = RDIR; break;
-      case '<': p++; t->token = LDIR; break;
+      case '|': p++; t->token.type = PIPE; break;
+      case '&': p++; t->token.type = BG;   break;
+      case '>': p++; t->token.type = RDIR; break;
+      case '<': p++; t->token.type = LDIR; break;
 
       default:
         if (isname(*p)) {
-          t->token = NAME;
-          t->value = name(&p);
+          t->token.type = NAME;
+          t->token.value.str = name(&p);
         } else {
           return NULL;
         }

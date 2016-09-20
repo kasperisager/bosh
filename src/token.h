@@ -4,15 +4,21 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-enum token {
-  // Operators
-  PIPE,
-  BG,
-  RDIR,
-  LDIR,
+struct token {
+  enum {
+    // Operators
+    PIPE,
+    BG,
+    RDIR,
+    LDIR,
 
-  // Values
-  NAME
+    // Values
+    NAME
+  } type;
+
+  union {
+    const char *str;
+  } value;
 };
 
 /**
