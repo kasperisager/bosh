@@ -19,7 +19,10 @@ struct token {
     LDIR,
 
     // Values
-    NAME
+    NAME,
+
+    // Terminators
+    EOS
   } type;
 
   /**

@@ -44,22 +44,22 @@ struct token_list *lex(char *input) {
     if (c) c->next = t;
     else s = t;
 
+    c = t;
+
+    if (isname(*p)) {
+      t->token.type = NAME;
+      t->token.value.str = name(&p);
+      continue;
+    }
+
     switch (*p) {
       case '|': p++; t->token.type = PIPE; break;
       case '&': p++; t->token.type = BG;   break;
       case '>': p++; t->token.type = RDIR; break;
       case '<': p++; t->token.type = LDIR; break;
-
-      default:
-        if (isname(*p)) {
-          t->token.type = NAME;
-          t->token.value.str = name(&p);
-        } else {
-          return NULL;
-        }
+      case ';': p++; t->token.type = EOS;  break;
+      default: return NULL;
     }
-
-    c = t;
   }
 
   return s;
