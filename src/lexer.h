@@ -19,7 +19,7 @@ struct tokens {
   /**
    * The value of the token.
    */
-  const char* value;
+  const char *value;
 
   /**
    * A pointer to the next token.
