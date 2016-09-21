@@ -6,16 +6,30 @@
  * @param p The input pointer.
  * @return The resulting name.
  */
-char *name(char **p) {
+char *lex_name(char **p) {
   char *q = *p;
 
   while (*q && isname(*q)) {
     q++;
   }
 
+  // Compute the number of characters to copy as the difference
+  // between the pointer q and the string pointed to by the
+  // input pointer. This can be illustrated as follows:
+  //
+  //   /foo/bar.txt
+  //   ^           ^
+  //  *p = 0       q = 12
+  //
+  // In this case, n will equal 12 as q - *p = 12.
   long n = q - *p;
+
+  // Copy n characters from the string pointed to by the input
+  // pointer to a freshly allocated block of memory.
   char *s = strncpy(malloc(n), *p, n);
 
+  // Forward the string pointed to by the input pointer by the n
+  // characters that have just been lexed.
   *p += n;
 
   return s;
@@ -27,11 +41,9 @@ char *name(char **p) {
  * @param input The input string to lex.
  * @return A pointer to the list of tokens.
  */
-struct token_list *lex(char *input) {
+struct token_list *lex(char *p) {
   struct token_list *s = NULL;
   struct token_list *c = NULL;
-
-  char *p = input;
 
   while (*p) {
     if (isspace(*p)) {
@@ -48,7 +60,7 @@ struct token_list *lex(char *input) {
 
     if (isname(*p)) {
       t->token.type = NAME;
-      t->token.value.str = name(&p);
+      t->token.value.str = lex_name(&p);
       continue;
     }
 
