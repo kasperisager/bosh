@@ -19,9 +19,14 @@ struct command {
   char **arguments;
 
   /**
-   * The redirects to perform.
+   * Input redirection;
    */
-  struct redirect_list *redirects;
+  struct redirect *in;
+
+  /**
+   * Output redirection.
+   */
+  struct redirect *out;
 
   /**
    * Whether to execute in background.

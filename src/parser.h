@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include "token.h"
+#include "redirect.h"
 #include "command.h"
 
 /**

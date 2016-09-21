@@ -19,7 +19,7 @@ char **parse_arguments(struct token_list **ts) {
     n++; t = t->next;
   }
 
-  // Dynamically allocate the initial array of arguments.
+  // Dynamically allocate the array of arguments.
   char **a = malloc(n * sizeof(char *));
 
   for (int i = 1; i < n - 1; i++) {
@@ -78,6 +78,10 @@ struct command_list *parse(struct token_list *ts) {
     n->command.program = ts->token.value.str;
     n->command.background = false;
 
+    // Initialize the command I/O redirects to the null pointer.
+    n->command.in = NULL;
+    n->command.out = NULL;
+
     ts = ts->next;
 
     // Parse the arguments to pass to the program and set the
@@ -98,9 +102,42 @@ struct command_list *parse(struct token_list *ts) {
       // if the background token is encountered.
       case BG: n->command.background = true; break;
 
-      case PIPE:
-      case RDIR:
       case LDIR:
+        if (!ts->next || ts->next->token.type != NAME) {
+          return NULL;
+        }
+
+        ts = ts->next;
+
+        n->command.in = malloc(sizeof(struct redirect));
+        n->command.in->type = FILEIN;
+        n->command.in->value.filename = ts->token.value.str;
+
+        // If the next token is a right redirect, grab it and
+        // FALL THROUGH to the corresponding case.
+        if (ts->next && ts->next->token.type == RDIR) {
+          ts = ts->next;
+        } else break;
+
+      case RDIR:
+        if (!ts->next || ts->next->token.type != NAME) {
+          return NULL;
+        }
+
+        ts = ts->next;
+
+        n->command.out = malloc(sizeof(struct redirect));
+        n->command.out->type = FILEOUT;
+        n->command.out->value.filename = ts->token.value.str;
+
+        // If the next token is present and is not an end of
+        // statement, return the null pointer to indicate an
+        // error during parsing.
+        if (ts->next && ts->next->token.type != EOS) {
+          return NULL;
+        } else break;
+
+      case PIPE:
         break;
 
       // If an invalid token is found, i.e. one not recognized

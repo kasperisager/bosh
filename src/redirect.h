@@ -26,19 +26,4 @@ struct redirect {
   } value;
 };
 
-/**
- * A linked list of redirects.
- */
-struct redirect_list {
-  /**
-   * The current redirect.
-   */
-  struct redirect redirect;
-
-  /**
-   * A pointer to the next redirect.
-   */
-  struct redirect_list *next;
-};
-
 #endif
