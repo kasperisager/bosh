@@ -42,6 +42,10 @@ char *lex_name(char **p) {
  * @return A pointer to the list of tokens.
  */
 struct token_list *lex(char *p) {
+  // Keep track of the start node (s) of the token list and the
+  // current node (c). The start node will be returned to the
+  // caller and the current node will be used for appending new
+  // nodes to the list.
   struct token_list *s = NULL;
   struct token_list *c = NULL;
 
@@ -50,12 +54,18 @@ struct token_list *lex(char *p) {
       p++; continue;
     }
 
+    // Dynamically allocate a new node in the token list and
+    // initialize its next pointer the null pointer.
     struct token_list *t = malloc(sizeof(struct token_list));
     t->next = NULL;
 
+    // Append the new node to the current node, increasing the
+    // size of the list, or make the new node the start node
+    // if its the very first node.
     if (c) c->next = t;
     else s = t;
 
+    // Move the current node pointer to the new node.
     c = t;
 
     if (isname(*p)) {
