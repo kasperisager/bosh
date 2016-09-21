@@ -7,31 +7,31 @@
  * @return A pointer to the command arguments.
  */
 char **parse_arguments(struct token_list **ts) {
+  struct token_list *t = *ts;
+
   // Keep track of the number of arguments that have been parsed.
   // The initial value is set at 2 in order to make room for two
   // required slots: The name of the program and a terminating
   // null pointer.
   int n = 2;
 
+  while (t && t->token.type == NAME) {
+    n++; t = t->next;
+  }
+
   // Dynamically allocate the initial array of arguments.
   char **a = malloc(n * sizeof(char *));
 
-  while (*ts && (*ts)->token.type == NAME) {
-    // Reallocate the array with memory enough for one more
-    // argument. This may or may not cause the existing
-    // arguments to be copied to the new memory block depending
-    // on whether or not there's continous memory available.
-    a = realloc(a, (n + 1) * sizeof(char *));
-
+  for (int i = 1; i < n - 1; i++) {
     // Add the next argument to the array and grab the next
     // token in the list.
-    a[n++ - 1] = (*ts)->token.value.str;
+    a[i] = (*ts)->token.value.str;
     *ts = (*ts)->next;
   }
 
   // Make the final item of the array the null pointer to
   // indicate that the array has come to an end.
-  a[n] = NULL;
+  a[n - 1] = NULL;
 
   return a;
 }
