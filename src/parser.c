@@ -110,7 +110,7 @@ struct command_list *parse(struct token_list *ts) {
         ts = ts->next;
 
         n->command.in = malloc(sizeof(struct redirect));
-        n->command.in->type = FILEIN;
+        n->command.in->type = FILE;
         n->command.in->value.filename = ts->token.value.str;
 
         // If the next token is a right redirect, grab it and
@@ -127,7 +127,7 @@ struct command_list *parse(struct token_list *ts) {
         ts = ts->next;
 
         n->command.out = malloc(sizeof(struct redirect));
-        n->command.out->type = FILEOUT;
+        n->command.out->type = FILE;
         n->command.out->value.filename = ts->token.value.str;
 
         // If the next token is present and is not an end of

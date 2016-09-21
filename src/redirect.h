@@ -9,13 +9,8 @@ struct redirect {
    * The type of the redirect.
    */
   enum {
-    // Pipes
-    STDIN = 0,
-    STDOUT = 1,
-
-    // Files
-    FILEIN,
-    FILEOUT
+    PIPE,
+    FILE
   } type;
 
   /**
