@@ -55,7 +55,7 @@ struct token_list *lex(char *p) {
     }
 
     // Dynamically allocate a new node in the token list and
-    // initialize its next pointer the null pointer.
+    // initialize its next pointer to the null pointer.
     struct token_list *t = malloc(sizeof(struct token_list));
     t->next = NULL;
 
@@ -75,13 +75,18 @@ struct token_list *lex(char *p) {
     }
 
     switch (*p) {
-      case '|': p++; t->token.type = PIPE; break;
-      case '&': p++; t->token.type = BG;   break;
-      case '>': p++; t->token.type = RDIR; break;
-      case '<': p++; t->token.type = LDIR; break;
-      case ';': p++; t->token.type = EOS;  break;
+      case '|': t->token.type = PIPE; break;
+      case '&': t->token.type = BG;   break;
+      case '>': t->token.type = RDIR; break;
+      case '<': t->token.type = LDIR; break;
+      case ';': t->token.type = EOS;  break;
+      // If an invalid token is found, i.e. one not recognized
+      // by the lexer, return the null pointer to indicate an
+      // error during lexing.
       default: return NULL;
     }
+
+    p++;
   }
 
   return s;
