@@ -50,6 +50,10 @@ struct command_list *parse(struct token_list *ts) {
   struct command_list *s = NULL;
   struct command_list *c = NULL;
 
+  // Keep track of the default input for a given parsed command.
+  // This will be set whenever pipes are encountered.
+  struct redirect *in = NULL;
+
   while (ts) {
     // Each command must start with a name token in order for the
     // command to make sense. If this is not the case, return the
@@ -78,10 +82,13 @@ struct command_list *parse(struct token_list *ts) {
     n->command.program = ts->token.value.str;
     n->command.background = false;
 
-    // Initialize the command I/O redirects to the null pointer.
-    n->command.in = NULL;
+    // Initialize the command I/O redirects. The input will the
+    // output of a previous process if piped, other the null
+    // pointer. The output will default to the null pointer.
+    n->command.in = in;
     n->command.out = NULL;
 
+    in = NULL;
     ts = ts->next;
 
     // Parse the arguments to pass to the program and set the
@@ -93,6 +100,28 @@ struct command_list *parse(struct token_list *ts) {
     // If there are no tokens left to parse, bail out.
     if (!ts) break;
 
+    // Before any other cases are covered, check for input
+    // redirection.
+    if (ts->token.type == LDIR) {
+      if (n->command.in) {
+        return NULL;
+      }
+
+      if (!ts->next || ts->next->token.type != NAME) {
+        return NULL;
+      }
+
+      ts = ts->next;
+
+      n->command.in = malloc(sizeof(struct redirect));
+      n->command.in->type = FILENAME;
+      n->command.in->value.filename = ts->token.value.str;
+
+      ts = ts->next;
+
+      if (!ts) break;
+    }
+
     switch (ts->token.type) {
       // Move on to next command if an end of statement token
       // is encountered.
@@ -102,23 +131,6 @@ struct command_list *parse(struct token_list *ts) {
       // if the background token is encountered.
       case BG: n->command.background = true; break;
 
-      case LDIR:
-        if (!ts->next || ts->next->token.type != NAME) {
-          return NULL;
-        }
-
-        ts = ts->next;
-
-        n->command.in = malloc(sizeof(struct redirect));
-        n->command.in->type = FILE;
-        n->command.in->value.filename = ts->token.value.str;
-
-        // If the next token is a right redirect, grab it and
-        // FALL THROUGH to the corresponding case.
-        if (ts->next && ts->next->token.type == RDIR) {
-          ts = ts->next;
-        } else break;
-
       case RDIR:
         if (!ts->next || ts->next->token.type != NAME) {
           return NULL;
@@ -127,7 +139,7 @@ struct command_list *parse(struct token_list *ts) {
         ts = ts->next;
 
         n->command.out = malloc(sizeof(struct redirect));
-        n->command.out->type = FILE;
+        n->command.out->type = FILENAME;
         n->command.out->value.filename = ts->token.value.str;
 
         // If the next token is present and is not an end of
@@ -138,7 +150,19 @@ struct command_list *parse(struct token_list *ts) {
         } else break;
 
       case PIPE:
-        break;
+        n->command.out = malloc(sizeof(struct redirect));
+        n->command.out->type = PROCESS;
+
+        // Remember the output of this command and use it as the
+        // input of the next command.
+        in = n->command.out;
+
+        // If the next token is not a name, i.e. a process that
+        // can be piped to, return the null pointer to indicate
+        // an error during parsing.
+        if (!ts->next || ts->next->token.type != NAME) {
+          return NULL;
+        } else break;
 
       // If an invalid token is found, i.e. one not recognized
       // by the parser, return the null pointer to indicate an

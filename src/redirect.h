@@ -9,8 +9,8 @@ struct redirect {
    * The type of the redirect.
    */
   enum {
-    PIPE,
-    FILE
+    PROCESS,
+    FILENAME
   } type;
 
   /**
