@@ -26,7 +26,10 @@ char *lex_name(char **p) {
 
   // Copy n characters from the string pointed to by the input
   // pointer to a freshly allocated block of memory.
-  char *s = strncpy(malloc(n), *p, n);
+  char *s = strncpy(malloc((n + 1) * sizeof(char)), *p, n);
+
+  // Terminate the copied string.
+  s[n] = '\0';
 
   // Forward the string pointed to by the input pointer by the n
   // characters that have just been lexed.
