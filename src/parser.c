@@ -81,6 +81,7 @@ struct command_list *parse(struct token_list *ts) {
     // default.
     n->command.program = ts->token.value.str;
     n->command.background = false;
+    n->command.arguments = NULL;
 
     // Initialize the command I/O redirects. The input will the
     // output of a previous process if piped, other the null
