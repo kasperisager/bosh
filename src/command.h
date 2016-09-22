@@ -19,6 +19,11 @@ struct command {
   char **arguments;
 
   /**
+   * Whether to execute in background.
+   */
+  bool background;
+
+  /**
    * Input redirection;
    */
   struct redirect *in;
@@ -27,11 +32,6 @@ struct command {
    * Output redirection.
    */
   struct redirect *out;
-
-  /**
-   * Whether to execute in background.
-   */
-  bool background;
 };
 
 /**
