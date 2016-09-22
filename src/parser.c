@@ -85,7 +85,7 @@ struct command_list *parse(struct token_list *ts) {
 
     // Initialize the command I/O redirects. The input will the
     // output of a previous process if piped, other the null
-    // pointer. The output will default to the null pointer.
+    // pointer.
     n->command.in = in;
     n->command.out = NULL;
 
