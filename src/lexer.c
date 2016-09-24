@@ -86,7 +86,9 @@ struct token_list *lex(char *p) {
       // If an invalid token is found, i.e. one not recognized
       // by the lexer, return the null pointer to indicate an
       // error during lexing.
-      default: return NULL;
+      default:
+        fprintf(stderr, "bosh: unexpected character \"%c\"\n", *p);
+        return NULL;
     }
 
     p++;

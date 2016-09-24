@@ -59,6 +59,7 @@ struct command_list *parse(struct token_list *ts) {
     // command to make sense. If this is not the case, return the
     // null pointer to indicate an error during parsing.
     if (ts->token.type != NAME) {
+      fprintf(stderr, "bosh: expected command name\n");
       return NULL;
     }
 
@@ -117,10 +118,12 @@ struct command_list *parse(struct token_list *ts) {
     // redirection.
     if (ts->token.type == LDIR) {
       if (n->command.in) {
+        fprintf(stderr, "bosh: input already redirected\n");
         return NULL;
       }
 
       if (!ts->next || ts->next->token.type != NAME) {
+        fprintf(stderr, "bosh: expected redirect name\n");
         return NULL;
       }
 
@@ -146,6 +149,7 @@ struct command_list *parse(struct token_list *ts) {
 
       case RDIR:
         if (!ts->next || ts->next->token.type != NAME) {
+          fprintf(stderr, "bosh: expected redirect name\n");
           return NULL;
         }
 
@@ -159,6 +163,7 @@ struct command_list *parse(struct token_list *ts) {
         // statement, return the null pointer to indicate an
         // error during parsing.
         if (ts->next && ts->next->token.type != EOS) {
+          fprintf(stderr, "bosh: expected end of statement\n");
           return NULL;
         } else break;
 
@@ -174,13 +179,16 @@ struct command_list *parse(struct token_list *ts) {
         // can be piped to, return the null pointer to indicate
         // an error during parsing.
         if (!ts->next || ts->next->token.type != NAME) {
+          fprintf(stderr, "bosh: expected command name\n");
           return NULL;
         } else break;
 
       // If an invalid token is found, i.e. one not recognized
       // by the parser, return the null pointer to indicate an
       // error during parsing.
-      default: return NULL;
+      default:
+        fprintf(stderr, "bosh: unexpected token\n");
+        return NULL;
     }
 
     ts = ts->next;
