@@ -16,11 +16,11 @@ char *prompt() {
   // Automatically allocate the required memory, ensuring that
   // it is freed once it goes out of scope.
   char host[host_max];
-  char login[login_max];
   char path[path_max];
 
+  char *login = getpwuid(getuid())->pw_name;
+
   gethostname(host, sizeof(host));
-  getlogin_r(login, sizeof(login));
   getcwd(path, sizeof(path));
 
   // Allocate enough memory for the host name, login name, path
