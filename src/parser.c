@@ -86,8 +86,20 @@ struct command_list *parse(struct token_list *ts) {
     // Initialize the command I/O redirects. The input will the
     // output of a previous process if piped, other the null
     // pointer.
-    n->command.in = in;
     n->command.out = NULL;
+    if (in) {
+      n->command.in = malloc(sizeof(struct redirect));
+
+      // Copy the previous redirect to the newly allocated memory.
+      // This ensures that each command can be freed independently
+      // from each other. For instance, if two commands share a
+      // redirect and this redirect was freed from the first
+      // command, the second command wouldn't known whether or not
+      // it would be safe to free its own redirect.
+      memcpy(in, n->command.in, sizeof(struct redirect));
+    } else {
+      n->command.in = NULL;
+    }
 
     in = NULL;
     ts = ts->next;
