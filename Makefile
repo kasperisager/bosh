@@ -11,7 +11,7 @@ obj/%.o: dep/%.d
 # Create a binary with zero or more libraries linked
 bin/%:
 	@mkdir -p bin
-	${CC} $(LIBS:%=-l%) -o $@ $^
+	${CC} -o $@ $^ $(LIBS:%=-l%)
 
 # Remove all generated files
 clean:
