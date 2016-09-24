@@ -1,9 +1,8 @@
 #ifndef TERMINAL
 #define TERMINAL
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
+#include <pwd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
