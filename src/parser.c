@@ -97,7 +97,7 @@ struct command_list *parse(struct token_list *ts) {
       // redirect and this redirect was freed from the first
       // command, the second command wouldn't known whether or not
       // it would be safe to free its own redirect.
-      memcpy(in, n->command.in, sizeof(struct redirect));
+      memcpy(n->command.in, in, sizeof(struct redirect));
     } else {
       n->command.in = NULL;
     }
