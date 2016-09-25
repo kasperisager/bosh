@@ -31,11 +31,11 @@ char *prompt() {
   // user input.
   sprintf(shell, "%s@%s:%s# ", login, host, path);
 
-  char *input = readline(shell);
+  char *input = linenoise(shell);
 
   // If a non-empty string was inputted, add it to the prompt
   // history so it can easily be accessed again by the user.
-  if (*input) add_history(input);
+  if (input && *input) linenoiseHistoryAdd(input);
 
   return input;
 }
