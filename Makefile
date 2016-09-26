@@ -25,7 +25,7 @@ bin/%:
 
 # Remove all generated files
 clean:
-	rm -rf {dep,obj,bin}
+	rm -rf {arc,bin,dep,obj}
 
 # Generate and include dependency files for sources
 SRC = $(wildcard src/*.c)
