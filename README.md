@@ -8,13 +8,13 @@ Bosh is written in ~400 lines of clean C with almost as many lines of comments. 
 
 ## Installation
 
-Bosh has no external dependencies so assuming that you have `make` and a C compiler available on your system, Bosh can be installed (or uninstalled) using the following command:
+Bosh has no external dependencies so assuming that you have CMake and a C compiler available on your system, Bosh can be installed using the following command:
 
 ```console
-$ make [un]install
+$ cmake . && make install
 ```
 
-This will compile Bosh and place its binary at `/usr/local/bin/bosh`.
+This will compile Bosh and install its binary on your `$PATH`.
 
 ## Architecture
 
