@@ -1,3 +1,5 @@
+include targets.mk
+
 # Compile a dependency file for a given source file
 dep/%.d: src/%.c
 	@mkdir -p dep
