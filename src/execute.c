@@ -152,6 +152,6 @@ void execute(struct command_list *cs) {
     // option for the waitpid call. This ensures that the call
     // doesn't block, but still reaps the child process when
     // finished.
-    waitpid(-1, NULL, cs->command.background ? WNOHANG : 0);
+    waitpid(pid, NULL, cs->command.background ? WNOHANG : 0);
   }
 }
