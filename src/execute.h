@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <errno.h>
+#include <pwd.h>
 #include <string.h>
 #include "command.h"
 

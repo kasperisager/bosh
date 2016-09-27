@@ -99,7 +99,7 @@ void execute(struct command_list *cs) {
 
       // If a directory was specified, change into it. If
       // not, change to the home directory.
-      chdir(dir ? dir : getenv("HOME"));
+      chdir(dir ? dir : getpwuid(getuid())->pw_dir);
 
       continue;
     }
