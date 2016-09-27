@@ -110,22 +110,33 @@ void execute(struct command_list *cs) {
     // redirection file descriptor to the next command.
     pipe(p);
 
+    // Check if the command must grab it input from somewhere
+    // that isn't stdin.
     if (cs->command.in) {
       switch (cs->command.in->type) {
+        // If the input should be redirected from a filename,
+        // open up the associated file in read-only mode.
         case FILENAME:
           i = open(cs->command.in->value.filename,
             O_RDONLY
           );
           break;
 
+        // If the input should be redirected from a process,
+        // grab the stored read end of the previous pipe.
         case PROCESS:
           i = r;
           break;
       }
+    // Otheriwse, just redirect the input from stdin.
     } else i = STDIN_FILENO;
 
     if (cs->command.out) {
       switch (cs->command.out->type) {
+        // If the output should be redirected to a filename,
+        // open up the associated file in write-only mode. If
+        // the file already exists, truncate it. If it however
+        // doesn't already exists, create it.
         case FILENAME:
           o = open(cs->command.out->value.filename,
             O_WRONLY | O_TRUNC | O_CREAT,
@@ -133,11 +144,15 @@ void execute(struct command_list *cs) {
           );
           break;
 
+        // If the output should be redirected to a process,
+        // grab the write end of the current pipe and use it
+        // as input and store the read end for the next process.
         case PROCESS:
           o = p[1];
           r = p[0];
           break;
       }
+    // Otheriwse, just redirect the output to stdout.
     } else o = STDOUT_FILENO;
 
     // Spawn a new process for the command and pass along the
