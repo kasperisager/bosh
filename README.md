@@ -31,3 +31,7 @@ The overall architecture of Bosh is very much inspired by Bash and is split into
 
 -   __Execution__  
     The final step is execution of the parsed commands. For each command, the executor takes care of setting up the pipe redirects and file redirects after spawning a separate process that will be used for executing the program specified by the command.
+
+## License
+
+Copyright &copy; 2016 [Kasper Kronborg Isager](https://github.com/kasperisager). Licensed under the terms of the [MIT license](LICENSE.md).
