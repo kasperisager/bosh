@@ -163,10 +163,15 @@ void execute(struct command_list *cs) {
     // needed for the next command if piped.
     close(p[1]);
 
-    // If the command is a background job, set the no-hang
-    // option for the waitpid call. This ensures that the call
-    // doesn't block, but still reaps the child process when
-    // finished.
-    waitpid(pid, NULL, cs->command.background ? WNOHANG : 0);
+    // If the command is a background job or redirects its
+    // output to another process, set the no-hang option for
+    // the waitpid call. This ensures that the call doesn't
+    // block, but still reaps the child process when finished.
+    waitpid(pid, NULL,
+      cs->command.background ||
+      (cs->command.out && cs->command.out->type == PROCESS)
+      ? WNOHANG
+      : 0
+    );
   }
 }
