@@ -2,6 +2,8 @@
 
 > A simple Unix shell that probably won't blow up your system
 
+[![Build Status](https://travis-ci.org/kasperisager/bosh.svg?branch=master)](https://travis-ci.org/kasperisager/bosh)
+
 Bosh is a minimal Unix shell that allows for basic command interpretation and execution. It supports process communication via pipe redirects (`|`) in addition to file redirects (`>` and `<`) and backgrounding (`&`).
 
 Bosh is written in ~400 lines of clean C with almost as many lines of comments. It was implemented as part of the Operating Systems and C course at the [IT University of Copenhagen](http://www.itu.dk) and turned out to be a most interesting introduction to both the C language and process management in Unix-like systems.
