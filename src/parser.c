@@ -13,7 +13,7 @@ char **parse_arguments(struct token_list **ts) {
   // The initial value is set at 2 in order to make room for two
   // required slots: The name of the program and a terminating
   // null pointer.
-  int n = 2;
+  int n = 2, i;
 
   while (t && t->token.type == NAME) {
     n++; t = t->next;
@@ -22,7 +22,7 @@ char **parse_arguments(struct token_list **ts) {
   // Dynamically allocate the array of arguments.
   char **a = malloc(n * sizeof(char *));
 
-  for (int i = 1; i < n - 1; i++) {
+  for (i = 1; i < n - 1; i++) {
     // Add the next argument to the array and grab the next
     // token in the list.
     a[i] = (*ts)->token.value.str;
