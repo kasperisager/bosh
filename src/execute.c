@@ -99,7 +99,19 @@ void execute(struct command_list *cs) {
 
       // If a directory was specified, change into it. If
       // not, change to the home directory.
-      chdir(dir ? dir : getpwuid(getuid())->pw_dir);
+      int err = chdir(dir ? dir : getpwuid(getuid())->pw_dir);
+
+      if (err != 0) {
+        switch (errno) {
+          case ENOENT:
+            fprintf(stderr, "cd: no such file or directory: %s\n", dir);
+            break;
+
+          case ENOTDIR:
+            fprintf(stderr, "cd: not a directory: %s\n", dir);
+            break;
+        }
+      }
 
       continue;
     }
