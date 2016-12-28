@@ -6,7 +6,7 @@
  * @param ts The token list
  * @return A pointer to the command arguments.
  */
-char **parse_arguments(struct token_list **ts) {
+static char **parse_arguments(struct token_list **ts) {
   struct token_list *t = *ts;
 
   // Keep track of the number of arguments that have been parsed.

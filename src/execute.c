@@ -21,7 +21,7 @@ void terminate() {
  * @param o The output file descriptor.
  * @return The spawned process ID.
  */
-int spawn(struct command c, int i, int o) {
+static int spawn(struct command c, int i, int o) {
   int pid = fork();
 
   if (pid == 0) {

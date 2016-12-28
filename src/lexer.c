@@ -6,7 +6,7 @@
  * @param p The input pointer.
  * @return The resulting name.
  */
-char *lex_name(char **p) {
+static char *lex_name(char **p) {
   char *q = *p;
 
   while (*q && isname(*q)) {
