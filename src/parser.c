@@ -20,7 +20,7 @@ static char **parse_arguments(struct token_list **ts) {
   }
 
   // Dynamically allocate the array of arguments.
-  char **a = malloc(n * sizeof(char *));
+  char **a = calloc(n, sizeof(char *));
 
   for (i = 1; i < n - 1; i++) {
     // Add the next argument to the array and grab the next
@@ -65,7 +65,7 @@ struct command_list *parse(struct token_list *ts) {
 
     // Dynamically allocate a new node in the command list and
     // initialize its next pointer to the null pointer.
-    struct command_list *n = malloc(sizeof(struct command_list));
+    struct command_list *n = calloc(1, sizeof(struct command_list));
     n->next = NULL;
 
     // Append the new node to the current node, increasing the
@@ -89,7 +89,7 @@ struct command_list *parse(struct token_list *ts) {
     // pointer.
     n->command.out = NULL;
     if (in) {
-      n->command.in = malloc(sizeof(struct redirect));
+      n->command.in = calloc(1, sizeof(struct redirect));
 
       // Copy the previous redirect to the newly allocated memory.
       // This ensures that each command can be freed independently
@@ -129,7 +129,7 @@ struct command_list *parse(struct token_list *ts) {
 
       ts = ts->next;
 
-      n->command.in = malloc(sizeof(struct redirect));
+      n->command.in = calloc(1, sizeof(struct redirect));
       n->command.in->type = FILENAME;
       n->command.in->value.filename = ts->token.value.str;
 
@@ -155,7 +155,7 @@ struct command_list *parse(struct token_list *ts) {
 
         ts = ts->next;
 
-        n->command.out = malloc(sizeof(struct redirect));
+        n->command.out = calloc(1, sizeof(struct redirect));
         n->command.out->type = FILENAME;
         n->command.out->value.filename = ts->token.value.str;
 
@@ -168,7 +168,7 @@ struct command_list *parse(struct token_list *ts) {
         } else break;
 
       case PIPE:
-        n->command.out = malloc(sizeof(struct redirect));
+        n->command.out = calloc(1, sizeof(struct redirect));
         n->command.out->type = PROCESS;
 
         // Remember the output of this command and use it as the

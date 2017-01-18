@@ -56,7 +56,7 @@ struct token_list *lex(char *p) {
 
     // Dynamically allocate a new node in the token list and
     // initialize its next pointer to the null pointer.
-    struct token_list *t = malloc(sizeof(struct token_list));
+    struct token_list *t = calloc(1, sizeof(struct token_list));
     t->next = NULL;
 
     // Append the new node to the current node, increasing the
