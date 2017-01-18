@@ -12,6 +12,8 @@ add_executable(bosh
   src/command.h
   src/execute.c
   src/execute.h
+  src/expand.c
+  src/expand.h
   src/lexer.c
   src/lexer.h
   src/parser.c

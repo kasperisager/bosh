@@ -28,6 +28,9 @@ The overall architecture of Bosh is very much inspired by Bash and is split into
 -   __Lexical analysis__  
     Once the user has inputted one or more commands, a small, hand-written lexer takes care of splitting the input up into tokens. Each token is described by a `struct` that stores the type and optional value of the token. The result of the lexical analysis is a linked list of these tokens.
 
+-   __Word expansion__
+    Prior to parsing, the lexed tokens are expanded (e.g. expanding `~` to the home directory of the user) where applicable.
+
 -   __Parsing__  
     Once the user input has been split up into tokens, these tokens are then parsed to individual commands and their associated redirects. Each command is like the tokens described by a `struct` that stores the program, arguments, I/O redirects, and backgrounding flag of the command. The result of the parsing is a linked list of these commands.
 

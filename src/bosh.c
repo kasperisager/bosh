@@ -3,6 +3,7 @@
 #include <signal.h>
 #include "terminal.h"
 #include "lexer.h"
+#include "expand.h"
 #include "parser.h"
 #include "execute.h"
 
@@ -17,6 +18,9 @@ int main() {
     }
 
     struct token_list *ts = lex(input);
+
+    expand(ts);
+
     struct command_list *cs = parse(ts);
 
     execute(cs);

@@ -7,5 +7,10 @@
  * @return true if the character is valid in a name.
  */
 bool isname(char c) {
-  return !isspace(c) && (isalnum(c) || c == '/' || c == '.' || c == '-');
+  return !isspace(c) && (isalnum(c)
+    || c == '/'
+    || c == '.'
+    || c == '-'
+    || c == '~'
+  );
 }
